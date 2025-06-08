@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Trang quản trị - Mộc Xinh</title>
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Noto Sans', Arial, sans-serif;
+      background: #fdf6ee;
+      color: #222;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+    .admin-container {
+      max-width: 600px;
+      margin: 80px auto 0 auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      padding: 2.5rem 2rem 2rem 2rem;
+      text-align: center;
+    }
+    .admin-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #009688;
+      margin-bottom: 1.5rem;
+    }
+    .logout-btn {
+      background: #009688;
+      color: #fff;
+      border: none;
+      border-radius: 24px;
+      padding: 0.7rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      transition: background .2s;
+    }
+    .logout-btn:hover {
+      background: #00796b;
+    }
+    .add-form {
+      margin: 2rem 0 1.5rem 0;
+      text-align: left;
+    }
+    .add-form label {
+      font-weight: 500;
+      display: block;
+      margin-bottom: 0.3rem;
+      color: #444;
+    }
+    .add-form input, .add-form select {
+      width: 100%;
+      padding: 0.6rem 1rem;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+      background: #fdf6ee;
+      color: #222;
+      outline: none;
+      margin-bottom: 1rem;
+      transition: border-color .2s;
+    }
+    .add-form input:focus, .add-form select:focus {
+      border-color: #009688;
+    }
+    .add-btn {
+      background: #009688;
+      color: #fff;
+      border: none;
+      border-radius: 24px;
+      padding: 0.6rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .add-btn:hover {
+      background: #00796b;
+    }
+    .msg {
+      color: #009688;
+      text-align: center;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+    .product-list {
+      margin-top: 2rem;
+      text-align: left;
+    }
+    .product-list-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #009688;
+    }
+    .product-item {
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+    .product-item img {
+      width: 32px; height: 32px; vertical-align: middle; border-radius: 6px; margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <div class="admin-title">Chào mừng, Admin!</div>
+    <a href="{{ url_for('logout') }}"><button class="logout-btn">Đăng xuất</button></a>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="msg">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    <form class="add-form" method="post" action="{{ url_for('admin_dashboard') }}" enctype="multipart/form-data">
+      <label for="name">Tên sản phẩm</label>
+      <input type="text" id="name" name="name" required>
+      <label for="stone">Loại đá</label>
+      <select id="stone" name="stone" required>
+        <option value="marble">Cẩm thạch</option>
+        <option value="granite">Granite</option>
+        <option value="onyx">Onyx</option>
+      </select>
+      <label for="size">Kích thước</label>
+      <select id="size" name="size" required>
+        <option value="small">Nhỏ</option>
+        <option value="medium">Vừa</option>
+        <option value="large">Lớn</option>
+      </select>
+      <label for="img">Ảnh sản phẩm (tải từ máy)</label>
+      <input type="file" id="img" name="img" accept="image/*" required>
+      <button class="add-btn" type="submit">Thêm sản phẩm</button>
+    </form>
+    <div class="product-list">
+      <div class="product-list-title">Danh sách sản phẩm hiện tại:</div>
+      {% for p in products %}
+        <div class="product-item">
+          <img src="{{p.img}}" alt="{{p.name}}"> {{p.name}} ({{p.stone}}, {{p.size}})
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>

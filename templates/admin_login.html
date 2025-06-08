@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Đăng nhập Quản trị - Mộc Xinh</title>
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --beige: #fdf6ee;
+      --white: #fff;
+      --primary: #009688;
+      --primary-dark: #00796b;
+      --gray: #e0e0e0;
+      --text: #222;
+    }
+    html, body {
+      font-family: 'Noto Sans', 'Inter', Arial, sans-serif;
+      background: var(--beige);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+    .login-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-box {
+      background: var(--white);
+      border-radius: 18px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      padding: 2.5rem 2rem 2rem 2rem;
+      width: 100%;
+      max-width: 370px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .login-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .login-form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .login-label {
+      font-weight: 500;
+      margin-bottom: 0.3rem;
+      color: #444;
+    }
+    .login-input {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border: 1px solid var(--gray);
+      border-radius: 8px;
+      font-size: 1rem;
+      background: var(--beige);
+      color: var(--text);
+      outline: none;
+      transition: border-color .2s;
+    }
+    .login-input:focus {
+      border-color: var(--primary);
+    }
+    .login-btn {
+      width: 100%;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 24px;
+      padding: 0.7rem 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: background .2s;
+    }
+    .login-btn:hover {
+      background: var(--primary-dark);
+    }
+    .msg {
+      color: #d32f2f;
+      text-align: center;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+    @media (max-width: 500px) {
+      .login-box {
+        padding: 1.2rem 0.5rem;
+        max-width: 98vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-box">
+      <div class="login-title">Đăng nhập Quản trị</div>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="msg">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+      <form class="login-form" method="post" action="{{ url_for('login') }}">
+        <div>
+          <label class="login-label" for="email">Email</label>
+          <input class="login-input" type="email" id="email" name="email" required autocomplete="username">
+        </div>
+        <div>
+          <label class="login-label" for="password">Mật khẩu</label>
+          <input class="login-input" type="password" id="password" name="password" required autocomplete="current-password">
+        </div>
+        <button class="login-btn" type="submit">Đăng nhập</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
